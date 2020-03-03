@@ -1,0 +1,21 @@
+{
+  "name": "restapi-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jQuery": "^1.7.4",
+    "morgan": "^1.9.1",
+    "underscore": "^1.9.2"
+  },
+  "devDependencies": {
+    "grunt-contrib-imagemin": "^3.1.0",
+    "nodemon": "^2.0.2"
+  }
+}

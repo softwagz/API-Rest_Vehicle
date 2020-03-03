@@ -1,0 +1,306 @@
+[
+    {
+        "loginAdmin": [
+            {
+                "_id": "1dasd",
+                "usuario": "admin",
+                "clave": "root",
+                "status": true
+            }
+        ],
+        "vehiculos": [
+            {
+                "_id": "ABC",
+                "patente": "ABC",
+                "marca": "nissan",
+                "modelo": "np300",
+                "tipoVehiculo": 1,
+                "tipoCombustible": 1,
+                "manutencion": true,
+                "status": true
+            }
+        ],
+        "conductores": [
+            {
+                "_id": "25912049",
+                "rut": "25912049",
+                "nombre": "Claudio",
+                "apellido": "Antolin",
+                "usuario": "admin",
+                "clave": "123",
+                "estadoAsignacion": true,
+                "patenteAsignada": "KDF547",
+                "status": true
+            },
+            {
+                "_id": "25912049",
+                "rut": "25912049",
+                "nombre": "Eric",
+                "apellido": "Fuentes",
+                "usuario": "efuentes",
+                "clave": "1234",
+                "estadoAsignacion": true,
+                "patenteAsignada": "007ASD",
+                "status": true
+            },
+            {
+                "_id": "25912049",
+                "rut": "25912049",
+                "nombre": "Wolverine",
+                "apellido": "Mendez",
+                "usuario": "wolvie",
+                "clave": "0000",
+                "estadoAsignacion": true,
+                "patenteAsignada": "ABC008",
+                "status": true
+            }
+        ],
+        "bitacoras": [
+            {
+                "_id": "asdas",
+                "patenteVehiculo": "ABC",
+                "asignado": false,
+                "inspeccion":false,
+                "conductor":"25912049",
+                "fechaFinal": "2020-02-25",
+                "registro": [
+                    {
+                        "rutConductor": "25912049",
+                        "fechaRegistro": "2020-02-23",
+                        "fechaAsignacion": {
+                            "desde": "2020-02-23",
+                            "hasta": "2020-02-25"
+                        }
+                    }
+                ],
+                "status": true
+            }
+        ],
+        "inspecciones": [
+            {
+                "_id": "insp1",
+                "patenteVehiculo": "ABC",
+                "rutConductor": "25912049",
+                "fechaRegistro": "2020-02-23",
+                "criterios": [
+                    {
+                        "nombre": "GENERAL",
+                        "items": [
+                            {
+                                "nombreItem": "Fecha",
+                                "valor": "valor"
+                            },
+                            {
+                                "nombreItem": "Kilometraje",
+                                "valor": "valor"
+                            },
+                            {
+                                "nombreItem": "Neumáticos/Repuestos",
+                                "valor": "valor"
+                            },
+                            {
+                                "nombreItem": "Cinturones de Seguridad",
+                                "valor": "valor"
+                            },
+                            {
+                                "nombreItem": "Espejos Laterales/ Interior",
+                                "valor": "valor"
+                            }
+                        ]
+                    }
+                ],
+                "status": true
+            }
+        ],
+        "tipoVehiculos": [
+            {
+                "_id": "1",
+                "tipo": 1,
+                "nombre": "camioneta",
+                "status": true
+            },
+            {
+                "_id": "1",
+                "tipo": 1,
+                "nombre": "carro",
+                "status": true
+            },
+            {
+                "_id": "1",
+                "tipo": 1,
+                "nombre": "carga",
+                "status": true
+            }
+        ],
+        "tipoCombustibles": [
+            {
+                "_id": "1",
+                "tipo": 1,
+                "nombre": "combustible tipo 1",
+                "status": true
+            },
+            {
+                "_id": "2",
+                "tipo": 2,
+                "nombre": "combustible tipo 2",
+                "status": true
+            },
+            {
+                "_id": "3",
+                "tipo": 3,
+                "nombre": "combustible tipo 3",
+                "status": true
+            }
+        ],
+        "criterios": [
+            {
+                "nombre": "GENERAL",
+                "items": [
+                    {
+                        "nombreItem": "Fecha",
+                        "tipoItem": "fecha"
+                    },
+                    {
+                        "nombreItem": "Kilometraje",
+                        "tipoItem": "numerico"
+                    },
+                    {
+                        "nombreItem": "Neumáticos/Repuestos",
+                        "tipoItem": "seleccion"
+                    },
+                    {
+                        "nombreItem": "Cinturones de Seguridad",
+                        "tipoItem": "seleccion"
+                    },
+                    {
+                        "nombreItem": "Espejos Laterales/ Interior",
+                        "tipoItem": "seleccion"
+                    }
+                ]
+            },
+            {
+                "nombre": "SISTEMA DE LUCES",
+                "items": [
+                    {
+                        "nombreItem": "Bajas / Altas",
+                        "tipoItem": "radio"
+                    },
+                    {
+                        "nombreItem": "Freno (Incluye tercera luz)",
+                        "tipoItem": "radio"
+                    },
+                    {
+                        "nombreItem": "Retroceso",
+                        "tipoItem": "radio"
+                    },
+                    {
+                        "nombreItem": "Viraje Derecha / Izquierda",
+                        "tipoItem": "radio"
+                    },
+                    {
+                        "nombreItem": "Luz de emergencia",
+                        "tipoItem": "radio"
+                    },
+                    {
+                        "nombreItem": "Patente",
+                        "tipoItem": "radio"
+                    },
+                    {
+                        "nombreItem": "Pértiga",
+                        "tipoItem": "radio"
+                    },
+                    {
+                        "nombreItem": "Baliza",
+                        "tipoItem": "radio"
+                    },
+                    {
+                        "nombreItem": "Interior",
+                        "tipoItem": "radio"
+                    }
+                ]
+            },
+            {
+                "nombre": "NIVELES",
+                "items": [
+                    {
+                        "nombreItem": "Aceite motor",
+                        "tipoItem": "radio"
+                    },
+                    {
+                        "nombreItem": "Agua radiador",
+                        "tipoItem": "radio"
+                    },
+                    {
+                        "nombreItem": "Líquido de frenos",
+                        "tipoItem": "radio"
+                    },
+                    {
+                        "nombreItem": "Aceite",
+                        "tipoItem": "radio"
+                    }
+                ]
+            },
+            {
+                "nombre": "ACCESORIOS Y DOCUMENTOS",
+                "items": [
+                    {
+                        "nombreItem": "Extintor",
+                        "tipoItem": "radio"
+                    },
+                    {
+                        "nombreItem": "Botiquín",
+                        "tipoItem": "radio"
+                    },
+                    {
+                        "nombreItem": "Gata",
+                        "tipoItem": "radio"
+                    },
+                    {
+                        "nombreItem": "Llave de ruedas",
+                        "tipoItem": "radio"
+                    },
+                    {
+                        "nombreItem": "Triangulo",
+                        "tipoItem": "radio"
+                    },
+                    {
+                        "nombreItem": "Limpiaparabrisas",
+                        "tipoItem": "radio"
+                    },
+                    {
+                        "nombreItem": "Radiotransmisor",
+                        "tipoItem": "radio"
+                    },
+                    {
+                        "nombreItem": "Bocina retroceso",
+                        "tipoItem": "radio"
+                    },
+                    {
+                        "nombreItem": "Antena",
+                        "tipoItem": "radio"
+                    },
+                    {
+                        "nombreItem": "Permiso de circulación",
+                        "tipoItem": "radio"
+                    },
+                    {
+                        "nombreItem": "Revisión Técnica",
+                        "tipoItem": "radio"
+                    },
+                    {
+                        "nombreItem": "Seguro obligatorio",
+                        "tipoItem": "radio"
+                    },
+                    {
+                        "nombreItem": "Chaleco reflectante",
+                        "tipoItem": "radio"
+                    },
+                    {
+                        "nombreItem": "Cuñas",
+                        "tipoItem": "radio"
+                    }
+                ]
+            }
+        ]
+    }
+]
