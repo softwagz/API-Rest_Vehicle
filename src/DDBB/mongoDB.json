@@ -12,10 +12,10 @@
             {
                 "_id": "ABC",
                 "patente": "ABC",
-                "marca": "nissan",
-                "modelo": "np300",
-                "tipoVehiculo": 1,
-                "tipoCombustible": 1,
+                "marca": "NISSAN",
+                "modelo": "NP300",
+                "tipoVehiculo": "1",
+                "tipoCombustible": "1",
                 "manutencion": true,
                 "status": true
             }
@@ -28,30 +28,30 @@
                 "apellido": "Antolin",
                 "usuario": "admin",
                 "clave": "123",
-                "estadoAsignacion": true,
-                "patenteAsignada": "KDF547",
+                "estadoAsignacion": false,
+                "patenteAsignada": "ABC",
                 "status": true
             },
             {
-                "_id": "25912049",
-                "rut": "25912049",
+                "_id": "123",
+                "rut": "123",
                 "nombre": "Eric",
                 "apellido": "Fuentes",
                 "usuario": "efuentes",
                 "clave": "1234",
                 "estadoAsignacion": true,
-                "patenteAsignada": "007ASD",
+                "patenteAsignada": "ABD",
                 "status": true
             },
             {
-                "_id": "25912049",
-                "rut": "25912049",
+                "_id": "321",
+                "rut": "321",
                 "nombre": "Wolverine",
                 "apellido": "Mendez",
                 "usuario": "wolvie",
                 "clave": "0000",
                 "estadoAsignacion": true,
-                "patenteAsignada": "ABC008",
+                "patenteAsignada": "ABF",
                 "status": true
             }
         ],
@@ -115,39 +115,39 @@
         "tipoVehiculos": [
             {
                 "_id": "1",
-                "tipo": 1,
-                "nombre": "camioneta",
+                "tipo": "1",
+                "nombre": "Camioneta",
                 "status": true
             },
             {
                 "_id": "1",
-                "tipo": 1,
-                "nombre": "carro",
+                "tipo": "2",
+                "nombre": "Carro",
                 "status": true
             },
             {
                 "_id": "1",
-                "tipo": 1,
-                "nombre": "carga",
+                "tipo": "3",
+                "nombre": "Carga",
                 "status": true
             }
         ],
         "tipoCombustibles": [
             {
                 "_id": "1",
-                "tipo": 1,
+                "tipo": "1",
                 "nombre": "combustible tipo 1",
                 "status": true
             },
             {
                 "_id": "2",
-                "tipo": 2,
+                "tipo": "2",
                 "nombre": "combustible tipo 2",
                 "status": true
             },
             {
                 "_id": "3",
-                "tipo": 3,
+                "tipo": "3",
                 "nombre": "combustible tipo 3",
                 "status": true
             }

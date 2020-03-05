@@ -6,8 +6,8 @@ const mongoDb = require('../DDBB/mongoDB.json');
 
 // login(usuario, password);
 router.post('/app/login', (req, res) => {
-    
-    var {usuario,clave} = req.body;
+
+    var { usuario, clave } = req.body;
     var respuesta = login(usuario, clave);
     res.json(respuesta)
 
@@ -15,26 +15,26 @@ router.post('/app/login', (req, res) => {
 
 // estadoAsignacionUsuario(usuario);
 router.post('/app/estadoAsignacion', (req, res) => {
-    
 
-    
-    var {usuario} = req.body;
+
+
+    var { usuario } = req.body;
     var resultado = estadoAsignacionUsuario(usuario)
     res.json(resultado);
 });
 
 // getPatentesDisponibles(fecha);
 router.post('/app/patentesDisponibles', (req, res) => {
-    
-    var {fecha} = req.body;
+
+    var { fecha } = req.body;
     var resultado = getPatentesDisponibles(fecha);
     res.json(resultado);
 });
 
 // getVehiculo(patente);
 router.post('/app/obtenerVehiculos', (req, res) => {
-    
-    var {patente} = req.body;
+
+    var { patente } = req.body;
     var resultado = getVehiculo(patente);
     res.json(resultado);
 });
@@ -47,22 +47,22 @@ router.get('/app/criteriosInspeccion', (req, res) => {
 
 //guardarInspeccion(patente, Inspeccion, rut);
 router.post('/app/guardarInspeccion', (req, res) => {
-    var {patente,inspeccion,rut} = req.body;
+    var { patente, inspeccion, rut } = req.body;
     var resultado = guardarInspeccion(patente, inspeccion, rut);
     res.json(resultado);
 });
 
 //finalizarAsignacion(patente, rut, cierre);
 router.post('/app/finalizarAsignacion', (req, res) => {
-    var {patente,rut,cierre} = req.body;
+    var { patente, rut, cierre } = req.body;
     var resultado = finalizarAsignacion(patente, rut, cierre);
     res.json(resultado);
 });
 
 //cambiarContraseña(usuario,clave);
 router.post('/app/cambiarClave', (req, res) => {
-    
-    var {usuario,clave} = req.body;
+
+    var { usuario, clave } = req.body;
     var resultado = cambiarContraseña(usuario, clave);
     res.json(resultado);
 });
@@ -72,8 +72,8 @@ router.post('/app/cambiarClave', (req, res) => {
 //Pantalla 1: Login********************
 //login(usuario, contraseña);
 router.post('/web/login', (req, res) => {
-    
-    var {usuario, clave} = req.body;
+
+    var { usuario, clave } = req.body;
     var resultado = loginAdm(usuario, clave);
     res.json(resultado);
 });
@@ -88,8 +88,8 @@ router.get('/web/vehiculosAsignados', (req, res) => {
 
 //getVehiculosDisponibles(fecha);
 router.post('/web/vehiculosDisponible', (req, res) => {
-    
-    var {fecha} = req.body;
+
+    var { fecha } = req.body;
     resultado = getVehiculosDisponibles(fecha);
     res.json(resultado);
 });
@@ -100,7 +100,7 @@ router.post('/web/vehiculosDisponible', (req, res) => {
 //modificarUsuario(rut…);
 router.put('/web/modificarUsuario', (req, res) => {
     var { rut } = req.body;
-    var data = {...req.body}
+    var data = { ...req.body }
     console.log(data)
     resultado = modificarUsuario(rut, data);
     res.json(resultado);
@@ -137,7 +137,6 @@ router.post('/web/buscarUsuario', (req, res) => {
 //listarUsuario();
 router.get('/web/listarUsuarios', (req, res) => {
     var resultado = listarUsuarios();
-    console.log(resultado);
     res.json(resultado);
 });
 
@@ -159,23 +158,22 @@ router.post('/web/agregarVehiculo', (req, res) => {
 
 //modificarVehiculo(patente…);
 router.put('/web/modificarVehiculo', (req, res) => {
-    var {patente, data} = req.body;
-       resultado = modificarVehiculo(patente, data);
-          res.json(resultado);
-	  });
+    var data  = { ...req.body }
+    resultado = modificarVehiculo(data);
+    res.json(resultado);
+});
 
 //borrarVehiculo(patente…);
 router.put('/web/borrarVehiculo', (req, res) => {
-    
-    var { patente} = req.body;
+    var { patente } = req.body;
     resultado = borrarVehiculo(patente);
     res.json(resultado);
 });
 
 //buscarVehiculo(patente);
 router.post('/web/buscarVehiculo', (req, res) => {
-    
-    var {patente} = req.body;
+
+    var { patente } = req.body;
     resultado = buscarVehiculo(patente);
     res.json(resultado);
 });
@@ -190,42 +188,59 @@ router.get('/web/listarTipoVehiculo', (req, res) => {
 
 //borrarTipoVehiculo(id_tipoVehiculo);
 router.put('/web/borrarTipoVehiculo', (req, res) => {
-    
-    var {codigo} = req.body;
+
+    var { codigo } = req.body;
     resultado = borrarTipoVehiculo(codigo);
     res.json(resultado);
 });
 
 //agregarTipoVehiculo(id_tipoVehiculo…);
 router.post('/web/agregarTipoVehiculo', (req, res) => {
-    
-    var {parametro} = req.body;
+
+    var { parametro } = req.body;
     resultado = agregarTipoVehiculo(parametro);
     res.json(resultado);
 });
 
 //modificarTipoVehiculo(id_tipoVehiculo…);
 router.put('/web/modificarTipoVehiculo', (req, res) => {
-    
-    var {parametro} = req.body;
+
+    var { parametro } = req.body;
     resultado = modificarTipoVehiculo(parametro);
     res.json(resultado);
 });
 
 //buscarTipoVehiculo(id_tipoVehiculo);
 router.post('/web/buscarTipoVehiculo', (req, res) => {
-    
-    var {parametro} = req.body;
+
+    var { parametro } = req.body;
     resultado = buscarTipoVehiculo(parametro);
     res.json(resultado);
 });
+
+//listarTipoVehiculo()
+router.get('/web/listarTipoVehiculo', (req, res) => {
+    resultado = listarTipoVehiculos();
+    res.json(resultado);
+});
+
+//-----------------------------------------------------------------------
+
+// listarTipoCombustible 
+router.get('/web/listarTipoCombustible', (req, res) => {
+    resultado = listarTipoCombustible();
+    res.json(resultado);
+});
+
+
+// ----------------------------------------------------------------------
 
 //Pantalla 6: Asignación*************************
 
 //listarVehiculosDisponibles(fecha1, fecha2);
 router.post('/web/listarVehiculo', (req, res) => {
-    
-    var {fecha1,fecha2} = req.body;
+
+    var { fecha1, fecha2 } = req.body;
     resultado = listarVehiculosDisponibles(fecha1, fecha2);
     res.json(resultado);
 });
@@ -282,13 +297,10 @@ router.post('/web/detalleInspeccion', (req, res) => {
 
 //listarCategorias;
 router.get('/web/listarCategorias', (req, res) => {
-    var {} = req.body;
+    var { } = req.body;
     resultado = listarCategorias();
     res.json(resultado);
 });
-
-
-
 
 
 
@@ -528,7 +540,7 @@ function getVehiculosDisponibles(fecha) {
 
 function modificarUsuario(rut, data) {
     var resultado = -1;
-    var { nombre, apellido, usuario, clave} = data;
+    var { nombre, apellido, usuario, clave } = data;
     mongoDb[0]['conductores'].forEach(conductor => {
         if (conductor['rut'] == rut) {
             conductor['nombre'] = nombre;
@@ -542,23 +554,23 @@ function modificarUsuario(rut, data) {
 }
 
 function agregarUsuario(data) {
-    var { rut , nombre, apellido , usuario , clave } = data;
+    var { rut, nombre, apellido, usuario, clave } = data;
     if (!rutRepetido(rut)) {
         var id = (mongoDb[0]['conductores'].length + 1).toString();
         var status = true;
         var estadoAsignacion = false;
         var patenteAsignada = '';
-        var nuevoUsuario = { 
-            rut:rut,
-            nombre:nombre,
-            apellido,apellido,
-            usuario:usuario,
-            clave:clave,
-            patenteAsignada:patenteAsignada,
-            estadoAsignacion:estadoAsignacion,
-            status:status,
-            id:id
-         }
+        var nuevoUsuario = {
+            rut: rut,
+            nombre: nombre,
+            apellido, apellido,
+            usuario: usuario,
+            clave: clave,
+            patenteAsignada: patenteAsignada,
+            estadoAsignacion: estadoAsignacion,
+            status: status,
+            id: id
+        }
         mongoDb[0]['conductores'].push(nuevoUsuario);
         return nuevoUsuario;
     } else {
@@ -596,20 +608,19 @@ function listarUsuarios() {
 //vehiculos
 
 function listarVehiculo() {
-    return mongo[0]['vehiculos'];
+    return mongoDb[0]['vehiculos'];
 }
 
 function agregarVehiculo(data) {
-    var {
-        patente
-    } = data;
+    console.log(data);
+    var { patente, marca, modelo, tipoCombustible, tipoVehiculo } = data;
+
     if (!patenteRepetida(patente)) {
-        var id = ++mongoDb[0]['vehiculos'].length.toString();
+        var id = (mongoDb[0]['vehiculos'].length + 1).toString();
         var status = true;
+        var manutencion = false;
         var nuevoVehiculo = {
-            ...data,
-            id,
-            status
+            id, patente, marca, modelo, tipoVehiculo, tipoCombustible, manutencion, status
         }
         mongoDb[0]['vehiculos'].push(nuevoVehiculo);
         return nuevoVehiculo;
@@ -619,20 +630,16 @@ function agregarVehiculo(data) {
 
 }
 
-function modificarVehiculo(patente, data) {
+function modificarVehiculo(data) {
     var resultado = -1
-    var {
-        marca,
-        modelo,
-        anno,
-        tipo
-    } = data;
+    var { patente, marca, modelo, tipoCombustible, tipoVehiculo } = data;
+
     mongoDb[0]['vehiculos'].forEach(vehiculo => {
         if (vehiculo['patente'] == patente) {
             vehiculo['marca'] = marca;
             vehiculo['modelo'] = modelo;
-            vehiculo['anno'] = anno;
-            vehiculo['tipo'] = tipo;
+            vehiculo['tipoCombustible'] = tipoCombustible;
+            vehiculo['tipoVehiculo'] = tipoVehiculo;
             resultado = vehiculo;
         }
     });
@@ -640,6 +647,7 @@ function modificarVehiculo(patente, data) {
 }
 
 function borrarVehiculo(patente) {
+    console.log(patente);
     var resultado = -1;
     mongoDb[0]['vehiculos'].forEach(vehiculo => {
         if (vehiculo['patente'] == patente) {
@@ -697,10 +705,7 @@ function agregarTipoVehiculo(data) {
 
 function modificarTipoVehiculo(data) {
     var resultado = -1;
-    var {
-        codigo,
-        nombre
-    } = data;
+    var {codigo, nombre } = data;
     mongoDb[0]['tipoVehiculos'].forEach(element => {
         if (element['codigo'] == codigo) {
             element['nombre'] = nombre;
@@ -720,6 +725,16 @@ function buscarTipoVehiculo(codigo) {
     return resultado;
 }
 
+function listarTipoVehiculos() {
+    return mongoDb['tipoVehiculos'];
+}
+
+
+    // tipo Combustible
+
+function listarTipoCombustible(){
+    return mongoDb[0]['tipoCombustibles'];
+}
 //asignacion
 
 function listarVehiculosDisponibles(fecha1, fecha2) {
@@ -837,7 +852,7 @@ function rutRepetido(rut) {
     var result = false;
     mongoDb[0]['conductores'].forEach(conductor => {
         if (conductor['rut'] == rut) {
-            result =  true
+            result = true
         }
     });
 
@@ -859,7 +874,7 @@ function codigoRepetido(codigo) {
     var result = false;
     mongoDb[0]['tipoVehiculos'].forEach(element => {
         if (element['codigo'] == codigo) {
-            result =  true;
+            result = true;
         }
     });
     return result;
