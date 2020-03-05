@@ -158,7 +158,7 @@ router.post('/web/agregarVehiculo', (req, res) => {
 
 //modificarVehiculo(patente…);
 router.put('/web/modificarVehiculo', (req, res) => {
-    var data  = { ...req.body }
+    var data = { ...req.body }
     resultado = modificarVehiculo(data);
     res.json(resultado);
 });
@@ -288,10 +288,8 @@ router.post('/web/bitacoraVehiculo', (req, res) => {
 
 //verDetalleInspeccion(id_bitacora);
 router.post('/web/detalleInspeccion', (req, res) => {
-    var {
-        codigo
-    } = req.body;
-    resultado = verDetalleInspeccion(codigo);
+    var { fecha, patente } = req.body;
+    resultado = verDetalleInspeccion(fecha, patente);
     res.json(resultado);
 });
 
@@ -705,7 +703,7 @@ function agregarTipoVehiculo(data) {
 
 function modificarTipoVehiculo(data) {
     var resultado = -1;
-    var {codigo, nombre } = data;
+    var { codigo, nombre } = data;
     mongoDb[0]['tipoVehiculos'].forEach(element => {
         if (element['codigo'] == codigo) {
             element['nombre'] = nombre;
@@ -730,9 +728,9 @@ function listarTipoVehiculos() {
 }
 
 
-    // tipo Combustible
+// tipo Combustible
 
-function listarTipoCombustible(){
+function listarTipoCombustible() {
     return mongoDb[0]['tipoCombustibles'];
 }
 //asignacion
@@ -828,23 +826,26 @@ function asignarVehiculo(patente, rut) {
 //bitacora
 
 function getBitacoraVehiculo(patente) {
-    var bitacoraVehiculo = [];
+    var bitacoraVehiculo = -1;
     mongoDb[0]['bitacoras'].forEach(bitacora => {
         if (bitacora['patenteVehiculo'] == patente) {
-            bitacoraVehiculo.push(element);
+            bitacoraVehiculo = bitacora;
         }
     });
 
-    if (historialVehiculo.length > 0) {
-        return historialVehiculo;
-    } else {
-        return -1;
-    }
+    return bitacoraVehiculo;
+
 }
 
-function verDetalleInspeccion(id_bitacora) {
+function verDetalleInspeccion(fecha, patente) {
+    var resultado = -1;
+    mongoDb[0]['inspecciones'].forEach((inspeccion) => {
+        if(inspeccion['patenteVehiculo']==patente && inspeccion['fechaRegistro']==fecha){
+            resultado = inspeccion;
+        }
+    })
 
-    //¿ parametro id_bitacora ?
+    return resultado;
 }
 
 //funciones auxiliar

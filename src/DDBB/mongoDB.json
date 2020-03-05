@@ -66,11 +66,25 @@
                 "registro": [
                     {
                         "rutConductor": "25912049",
+                        "nombreConductor":"Claudio",
+                        "apellidoConductor":"Antolin",
                         "fechaRegistro": "2020-02-23",
                         "fechaAsignacion": {
                             "desde": "2020-02-23",
                             "hasta": "2020-02-25"
                         }
+                        
+                    },
+                    {
+                        "rutConductor": "25912049",
+                        "nombreConductor":"Claudio",
+                        "apellidoConductor":"Antolin",
+                        "fechaRegistro": "2020-02-10",
+                        "fechaAsignacion": {
+                            "desde": "2020-02-10",
+                            "hasta": "2020-02-14"
+                        }
+                        
                     }
                 ],
                 "status": true
@@ -80,7 +94,6 @@
             {
                 "_id": "insp1",
                 "patenteVehiculo": "ABC",
-                "rutConductor": "25912049",
                 "fechaRegistro": "2020-02-23",
                 "criterios": [
                     {
@@ -88,23 +101,146 @@
                         "items": [
                             {
                                 "nombreItem": "Fecha",
-                                "valor": "valor"
+                                "value": "fecha"
                             },
                             {
                                 "nombreItem": "Kilometraje",
-                                "valor": "valor"
+                                "value": "numerico"
                             },
                             {
                                 "nombreItem": "Neumáticos/Repuestos",
-                                "valor": "valor"
+                                "value": "seleccion"
                             },
                             {
                                 "nombreItem": "Cinturones de Seguridad",
-                                "valor": "valor"
+                                "value": "seleccion"
                             },
                             {
                                 "nombreItem": "Espejos Laterales/ Interior",
-                                "valor": "valor"
+                                "value": "seleccion"
+                            }
+                        ]
+                    },
+                    {
+                        "nombre": "SISTEMA DE LUCES",
+                        "items": [
+                            {
+                                "nombreItem": "Bajas / Altas",
+                                "value": "radio"
+                            },
+                            {
+                                "nombreItem": "Freno (Incluye tercera luz)",
+                                "value": "radio"
+                            },
+                            {
+                                "nombreItem": "Retroceso",
+                                "value": "radio"
+                            },
+                            {
+                                "nombreItem": "Viraje Derecha / Izquierda",
+                                "value": "radio"
+                            },
+                            {
+                                "nombreItem": "Luz de emergencia",
+                                "value": "radio"
+                            },
+                            {
+                                "nombreItem": "Patente",
+                                "value": "radio"
+                            },
+                            {
+                                "nombreItem": "Pértiga",
+                                "value": "radio"
+                            },
+                            {
+                                "nombreItem": "Baliza",
+                                "value": "radio"
+                            },
+                            {
+                                "nombreItem": "Interior",
+                                "value": "radio"
+                            }
+                        ]
+                    },
+                    {
+                        "nombre": "NIVELES",
+                        "items": [
+                            {
+                                "nombreItem": "Aceite motor",
+                                "value": "radio"
+                            },
+                            {
+                                "nombreItem": "Agua radiador",
+                                "value": "radio"
+                            },
+                            {
+                                "nombreItem": "Líquido de frenos",
+                                "value": "radio"
+                            },
+                            {
+                                "nombreItem": "Aceite",
+                                "value": "radio"
+                            }
+                        ]
+                    },
+                    {
+                        "nombre": "ACCESORIOS Y DOCUMENTOS",
+                        "items": [
+                            {
+                                "nombreItem": "Extintor",
+                                "value": "radio"
+                            },
+                            {
+                                "nombreItem": "Botiquín",
+                                "value": "radio"
+                            },
+                            {
+                                "nombreItem": "Gata",
+                                "value": "radio"
+                            },
+                            {
+                                "nombreItem": "Llave de ruedas",
+                                "value": "radio"
+                            },
+                            {
+                                "nombreItem": "Triangulo",
+                                "value": "radio"
+                            },
+                            {
+                                "nombreItem": "Limpiaparabrisas",
+                                "value": "radio"
+                            },
+                            {
+                                "nombreItem": "Radiotransmisor",
+                                "value": "radio"
+                            },
+                            {
+                                "nombreItem": "Bocina retroceso",
+                                "value": "radio"
+                            },
+                            {
+                                "nombreItem": "Antena",
+                                "value": "radio"
+                            },
+                            {
+                                "nombreItem": "Permiso de circulación",
+                                "value": "radio"
+                            },
+                            {
+                                "nombreItem": "Revisión Técnica",
+                                "value": "radio"
+                            },
+                            {
+                                "nombreItem": "Seguro obligatorio",
+                                "value": "radio"
+                            },
+                            {
+                                "nombreItem": "Chaleco reflectante",
+                                "value": "radio"
+                            },
+                            {
+                                "nombreItem": "Cuñas",
+                                "value": "radio"
                             }
                         ]
                     }
