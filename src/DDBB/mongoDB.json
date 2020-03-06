@@ -18,6 +18,16 @@
                 "tipoCombustible": "1",
                 "manutencion": true,
                 "status": true
+            },
+            {
+                "_id": "ABC",
+                "patente": "ABD",
+                "marca": "MUSTANG",
+                "modelo": "GT",
+                "tipoVehiculo": "1",
+                "tipoCombustible": "1",
+                "manutencion": true,
+                "status": true
             }
         ],
         "conductores": [
@@ -60,7 +70,7 @@
                 "_id": "asdas",
                 "patenteVehiculo": "ABC",
                 "asignado": false,
-                "inspeccion":false,
+                "inspeccion":true,
                 "conductor":"25912049",
                 "fechaFinal": "2020-02-25",
                 "registro": [
@@ -74,18 +84,19 @@
                             "hasta": "2020-02-25"
                         }
                         
-                    },
-                    {
-                        "rutConductor": "25912049",
-                        "nombreConductor":"Claudio",
-                        "apellidoConductor":"Antolin",
-                        "fechaRegistro": "2020-02-10",
-                        "fechaAsignacion": {
-                            "desde": "2020-02-10",
-                            "hasta": "2020-02-14"
-                        }
-                        
                     }
+                ],
+                "status": true
+            },
+            {
+                "_id": "asdas",
+                "patenteVehiculo": "ABD",
+                "asignado": false,
+                "inspeccion":true,
+                "conductor":"25912049",
+                "fechaFinal": "2020-2-25",
+                "registro": [
+
                 ],
                 "status": true
             }
@@ -252,19 +263,19 @@
             {
                 "_id": "1",
                 "tipo": "1",
-                "nombre": "Camioneta",
+                "nombre": "CAMIONETA",
                 "status": true
             },
             {
                 "_id": "1",
                 "tipo": "2",
-                "nombre": "Carro",
+                "nombre": "SEDAN",
                 "status": true
             },
             {
                 "_id": "1",
                 "tipo": "3",
-                "nombre": "Carga",
+                "nombre": "CARGA",
                 "status": true
             }
         ],
@@ -272,19 +283,19 @@
             {
                 "_id": "1",
                 "tipo": "1",
-                "nombre": "combustible tipo 1",
+                "nombre": "BENCINA",
                 "status": true
             },
             {
                 "_id": "2",
                 "tipo": "2",
-                "nombre": "combustible tipo 2",
+                "nombre": "GASOLEO",
                 "status": true
             },
             {
                 "_id": "3",
                 "tipo": "3",
-                "nombre": "combustible tipo 3",
+                "nombre": "ELECTRICIDAD",
                 "status": true
             }
         ],

@@ -88,7 +88,6 @@ router.get('/web/vehiculosAsignados', (req, res) => {
 
 //getVehiculosDisponibles(fecha);
 router.post('/web/vehiculosDisponible', (req, res) => {
-
     var { fecha } = req.body;
     resultado = getVehiculosDisponibles(fecha);
     res.json(resultado);
@@ -144,8 +143,8 @@ router.get('/web/listarUsuarios', (req, res) => {
 //Pantalla 4: Vehículos********************
 
 //listarVehiculo();
-router.get('/web/listarvehiculos', (req, res) => {
-    var resultado = listarVehiculo();
+router.get('/web/listarvehiculos', async (req, res) => {
+    var resultado = await listarVehiculo();
     res.json(resultado);
 });
 
@@ -257,11 +256,8 @@ router.post('/web/listarUsuariosDisponibles', (req, res) => {
 
 //asignarVehiculo(patente, rut);
 router.post('/web/asignarVehiculo', (req, res) => {
-    var {
-        patente,
-        rut
-    } = req.body;
-    resultado = asignarVehiculo(patente, rut);
+    var bitacoraActualizada = req.body
+    resultado = asignarVehiculo(bitacoraActualizada);
     res.json(resultado);
 });
 
@@ -514,18 +510,36 @@ function getVehiculosAsignados() {
 }
 
 function getVehiculosDisponibles(fecha) {
-
     var disponible = [];
-    mongoDb[0]['bitacoras'].forEach(bitacoraVehiculo => {
-        if (bitacoraVehiculo['asignado'] == false || bitacoraVehiculo['fechaFinal'] < fecha) {
-            mongoDb[0]['vehiculos'].forEach(vehiculo => {
-                if (vehiculo['patene'] == bitacoraVehiculo['patenteVehiculo']) {
-                    disponible.push(vehiculo);
-                }
+    if (fecha != '') {
+        console.log('fecha no vacia')
+        mongoDb[0]['bitacoras'].forEach(bitacoraVehiculo => {
+            if (bitacoraVehiculo['asignado'] == false || bitacoraVehiculo['fechaFinal'] < fecha) {
+                mongoDb[0]['vehiculos'].forEach(vehiculo => {
+                    if (vehiculo['patente'] == bitacoraVehiculo['patenteVehiculo']) {
+                        disponible.push(vehiculo);
+                    }
 
-            });
-        }
-    });
+                });
+            }
+        });
+
+    } else {
+        console.log('fechaVacio')
+        mongoDb[0]['bitacoras'].forEach(bitacoraVehiculo => {
+            console.log('bitacora ', bitacoraVehiculo);
+            if (bitacoraVehiculo['asignado'] == false) {
+                mongoDb[0]['vehiculos'].forEach(vehiculo => {
+                    if (vehiculo['patente'] == bitacoraVehiculo['patenteVehiculo'] && vehiculo['status'] ==true) {
+                        disponible.push(vehiculo);
+                    }
+
+                });
+            }
+        });
+
+    }
+
 
     if (disponible.length > 0) {
         return disponible;
@@ -621,6 +635,21 @@ function agregarVehiculo(data) {
             id, patente, marca, modelo, tipoVehiculo, tipoCombustible, manutencion, status
         }
         mongoDb[0]['vehiculos'].push(nuevoVehiculo);
+
+        var nuevaBitacora = { _id: patente,
+        patenteVehiculo: patente,
+        asignado: false,
+        inspeccion:false,
+        conductor:'',
+        fechaFinal: '',
+        registro: [
+                    
+                
+            ],
+            status: true
+        }
+
+        mongoDb[0]['bitacoras'].push(nuevaBitacora);
         return nuevoVehiculo;
     } else {
         return -1
@@ -790,35 +819,24 @@ function listarUsuariosDisponibles(fecha1, fecha2) {
 // deberia haber una funcion en app que se llame asignar
 
 
-function asignarVehiculo(patente, rut) {
+function asignarVehiculo(data) {
+    mongoDb[0]['bitacoras'].map((bitacora) => {
+        if (bitacora['patenteVehiculo'] == data['patenteVehiculo']) {
 
-    mongoDb[0]['conductores'].forEach(conductor => {
-        if (conductor['rut'] == rut) {
-            conductor['patenteAsignada'] = patente;
-            conductor['estadoAsignacion'] = true;
-        }
-    });
 
-    var fecha; //fecha en el momento que el conductor se asigna la patente,esta fecha esta fuera para usarla en el registro de inspeccion
-    // y asociarla a este registro.
-    var fechaDesde; //fecha en el momento que el conductor se asigne la patente.
-    var fechaHasta; //fecha Final ya sea que venga porque finalizaron antes. hay que editarla en ese caso
+            bitacora['inspeccion'] = data['inspeccion'];
+            bitacora['asignado'] = data['asignado'];
+            bitacora['conductor'] = data['conductor'];
+            bitacora['fechaFinal'] = data['fechaFinal']
+            bitacora['registro'] = data['registro'];
 
-    var registro = {
-        rutConductor: patente,
-        fechaRegistro: fecha,
-        fechaAsignacion: {
-            desde: fechaDesde,
-            hasta: fechaHasta
-        }
-    }
-
-    mongoDb[0]['bitacoras'].forEach(bitacoraVehiculo => {
-        if (bitacoraVehiculo['patenteVehiculo'] == patente) {
-            bitacoraVehiculo['asignado'] = true;
-            bitacoraVehiculo['conductor'] = rut;
-            bitacoraVehiculo['inspeccion'] = false;
-            bitacoraVehiculo['registro'].push(registro);
+            mongoDb[0]['conductores'].map((conductor) => {
+                if (conductor['rut'] == data['conductor']) {
+                    conductor['estadoAsignacion'] = true;
+                    conductor['patenteAsignada'] = data['patenteVehiculo'];
+                    return bitacora;
+                }
+            })
         }
     });
 }
@@ -840,7 +858,7 @@ function getBitacoraVehiculo(patente) {
 function verDetalleInspeccion(fecha, patente) {
     var resultado = -1;
     mongoDb[0]['inspecciones'].forEach((inspeccion) => {
-        if(inspeccion['patenteVehiculo']==patente && inspeccion['fechaRegistro']==fecha){
+        if (inspeccion['patenteVehiculo'] == patente && inspeccion['fechaRegistro'] == fecha) {
             resultado = inspeccion;
         }
     })
