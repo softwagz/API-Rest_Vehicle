@@ -16,85 +16,97 @@
                 "modelo": "NP300",
                 "tipoVehiculo": "1",
                 "tipoCombustible": "1",
-                "manutencion": true,
+                "manutencion": false,
                 "status": true
             },
             {
-                "_id": "ABC",
+                "_id": "ABD",
                 "patente": "ABD",
                 "marca": "MUSTANG",
                 "modelo": "GT",
                 "tipoVehiculo": "1",
                 "tipoCombustible": "1",
-                "manutencion": true,
+                "manutencion": false,
+                "status": true
+            },
+            {
+                "_id": "ABF",
+                "patente": "ABF",
+                "marca": "LAMBORGINI",
+                "modelo": "DIABLO",
+                "tipoVehiculo": "1",
+                "tipoCombustible": "1",
+                "manutencion": false,
                 "status": true
             }
         ],
         "conductores": [
             {
-                "_id": "25912049",
-                "rut": "25912049",
-                "nombre": "Claudio",
-                "apellido": "Antolin",
+                "_id": "123",
+                "rut": "123",
+                "nombre": "scarlett",
+                "apellido": "johansson",
                 "usuario": "admin",
                 "clave": "123",
                 "estadoAsignacion": false,
-                "patenteAsignada": "ABC",
+                "patenteAsignada": "",
                 "status": true
             },
             {
-                "_id": "123",
-                "rut": "123",
-                "nombre": "Eric",
-                "apellido": "Fuentes",
-                "usuario": "efuentes",
-                "clave": "1234",
-                "estadoAsignacion": true,
-                "patenteAsignada": "ABD",
+                "_id": "124",
+                "rut": "124",
+                "nombre": "Crhistopher",
+                "apellido": "Navarro",
+                "usuario": "navuser",
+                "clave": "123",
+                "estadoAsignacion": false,
+                "patenteAsignada": "",
                 "status": true
             },
             {
                 "_id": "321",
                 "rut": "321",
-                "nombre": "Wolverine",
-                "apellido": "Mendez",
-                "usuario": "wolvie",
-                "clave": "0000",
-                "estadoAsignacion": true,
-                "patenteAsignada": "ABF",
+                "nombre": "Gabriel",
+                "apellido": "Marquez",
+                "usuario": "guser",
+                "clave": "123",
+                "estadoAsignacion": false,
+                "patenteAsignada": "",
                 "status": true
             }
         ],
         "bitacoras": [
             {
-                "_id": "asdas",
+                "_id": "V1",
                 "patenteVehiculo": "ABC",
                 "asignado": false,
-                "inspeccion":true,
-                "conductor":"25912049",
-                "fechaFinal": "2020-02-25",
+                "inspeccion":false,
+                "conductor":"",
+                "fechaFinal": "",
                 "registro": [
-                    {
-                        "rutConductor": "25912049",
-                        "nombreConductor":"Claudio",
-                        "apellidoConductor":"Antolin",
-                        "fechaRegistro": "2020-02-23",
-                        "fechaAsignacion": {
-                            "desde": "2020-02-23",
-                            "hasta": "2020-02-25"
-                        }
-                        
-                    }
+
                 ],
                 "status": true
             },
             {
-                "_id": "asdas",
+                "_id": "V2",
                 "patenteVehiculo": "ABD",
                 "asignado": false,
-                "inspeccion":true,
-                "conductor":"25912049",
-                "fechaFinal": "2020-2-25",
+                "inspeccion":false,
+                "conductor":"",
+                "fechaFinal": "",
+                "registro": [
+
+                ],
+                "status": true
+            },
+            {
+                "_id": "V3",
+                "patenteVehiculo": "ABF",
+                "asignado": false,
+                "inspeccion":false,
+                "conductor":"",
+                "fechaFinal": "",
                 "registro": [
 
                 ],

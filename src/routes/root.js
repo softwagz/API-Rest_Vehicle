@@ -177,6 +177,13 @@ router.post('/web/buscarVehiculo', (req, res) => {
     res.json(resultado);
 });
 
+//crearInspeccion(fechaRegistro,patente) crear un registro vacio de inspeccion que luego el conductor llenara
+router.post('/web/crearInspeccion',(req,res)=>{
+    var {fechaRegistro,patente} = req.body;
+    resultado = crearInspeccion(fechaRegistro,patente);
+    res.json(resultado);
+})
+
 //listarTipoVehiculo();
 router.get('/web/listarTipoVehiculo', (req, res) => {
     var resultado = listarTipoVehiculo();
@@ -397,6 +404,172 @@ function getCriteriosdeInspeccion() {
     return mongoDb[0]['criterios'];
 }
 //**************************************************************************************************** */
+
+function crearInspeccion(fechaRegistro,patente){
+    var result = -1;
+    var id = (mongoDb[0]['inspecciones'].length + 1).toString();
+    var newInspeccion =             {
+        _id: id ,
+        patenteVehiculo: patente,
+        fechaRegistro: fechaRegistro,
+        criterios: [
+            {
+                nombre: "GENERAL",
+                items: [
+                    {
+                        nombreItem: "Fecha",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Kilometraje",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Neumáticos/Repuestos",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Cinturones de Seguridad",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Espejos Laterales/ Interior",
+                        value: "pendiente"
+                    }
+                ]
+            },
+            {
+                nombre: "SISTEMA DE LUCES",
+                items: [
+                    {
+                        nombreItem: "Bajas / Altas",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Freno (Incluye tercera luz)",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Retroceso",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Viraje Derecha / Izquierda",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Luz de emergencia",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Patente",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Pértiga",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Baliza",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Interior",
+                        value: "pendiente"
+                    }
+                ]
+            },
+            {
+                nombre: "NIVELES",
+                items: [
+                    {
+                        nombreItem: "Aceite motor",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Agua radiador",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Líquido de frenos",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Aceite",
+                        value: "pendiente"
+                    }
+                ]
+            },
+            {
+                nombre: "ACCESORIOS Y DOCUMENTOS",
+                items: [
+                    {
+                        nombreItem: "Extintor",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Botiquín",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Gata",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Llave de ruedas",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Triangulo",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Limpiaparabrisas",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Radiotransmisor",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Bocina retroceso",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Antena",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Permiso de circulación",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Revisión Técnica",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Seguro obligatorio",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Chaleco reflectante",
+                        value: "pendiente"
+                    },
+                    {
+                        nombreItem: "Cuñas",
+                        value: "pendiente"
+                    }
+                ]
+            }
+        ],
+        status: true
+    }
+    mongoDb[0]['inspecciones'].push(newInspeccion);
+    result = newInspeccion;
+    return result;
+
+}
+
 function guardarInspeccion(patente, criteriosInspeccion, rut) {
 
     // el parametro criteriosInspeccion recibe todos los criterios de Inspeccion debidamente llenados
