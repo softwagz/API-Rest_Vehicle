@@ -1,6 +1,88 @@
 const router = require('express').Router();
 const _ = require('underscore');
 const mongoDb = require('../DDBB/mongoDB.json');
+const populate = require('xlsx-populate');
+
+router.get('/excel/getInforme/:patente/:fecha/:rut/:fechaFinal', function (req, res, next) {
+    const {patente, fecha, rut, fechaFinal } = req.params;
+    console.log('parametros ',req.params);
+
+ // Open the workbook.
+    populate.fromFileAsync(__dirname + "/../Informe/car.xlsx")
+        .then(workbook => {
+            // Make edits.
+
+            mongoDb[0]['conductores'].map((driver)=>{
+                if(driver['rut']==rut){
+                    workbook.sheet(0).cell("A3").value(driver['rut']);
+                    workbook.sheet(0).cell("B3").value(driver['nombre']);
+                    workbook.sheet(0).cell("C3").value(driver['apellido']);
+                    workbook.sheet(0).cell("D3").value(fecha);
+                    workbook.sheet(0).cell("E3").value(fechaFinal);
+
+
+
+
+                }
+            })
+
+            mongoDb[0]['inspecciones'].map((inspeccion) => {
+                if (inspeccion['patenteVehiculo'] == patente && inspeccion['fechaRegistro'] == fecha){
+                    inspeccion['criterios'].map((criterio)=>{
+                        if(criterio['nombre']=="GENERAL"){
+                            var index = 7;
+                            criterio['items'].map((item)=>{
+                                workbook.sheet(0).cell("C"+index).value(item['nombreItem']);
+                                workbook.sheet(0).cell("D"+index).value(item['value']);
+                                index++;
+                            })
+                        }
+                        if(criterio['nombre']=="SISTEMA DE LUCES"){
+                            var index = 12;
+                            criterio['items'].map((item)=>{
+                                workbook.sheet(0).cell("C"+index).value(item['nombreItem']);
+                                workbook.sheet(0).cell("D"+index).value(item['value']);
+                                index++;
+                            })
+                        }
+                        if(criterio['nombre']=="NIVELES"){
+                            var index = 21;
+                            criterio['items'].map((item)=>{
+                                workbook.sheet(0).cell("C"+index).value(item['nombreItem']);
+                                workbook.sheet(0).cell("D"+index).value(item['value']);
+                                index++;
+                            })
+                        }
+                        if(criterio['nombre']=="ACCESORIOS Y DOCUMENTOS"){
+                            var index = 25;
+                            criterio['items'].map((item)=>{
+                                workbook.sheet(0).cell("C"+index).value(item['nombreItem']);
+                                workbook.sheet(0).cell("D"+index).value(item['value']);
+                                index++;
+                            })
+                        }
+
+
+                    })
+                }
+            })
+
+            // Get the output
+            return workbook.outputAsync();
+        })
+        .then(data => {
+            // Set the output file name.
+            res.attachment("Informe.xlsx");
+
+            // Send the workbook.
+            res.send(data);
+        })
+        .catch(next);
+});
+
+router.get('/excel/generateInforme', (req, res) => {
+
+});
 
 //Rutas para las peticiones de la App;
 
@@ -52,10 +134,10 @@ router.post('/app/guardarInspeccion', (req, res) => {
     res.json(resultado);
 });
 
-//finalizarAsignacion(patente, rut, cierre);
+//finalizarAsignacion(patente);
 router.post('/app/finalizarAsignacion', (req, res) => {
-    var { patente, rut, cierre } = req.body;
-    var resultado = finalizarAsignacion(patente, rut, cierre);
+    var { patente } = req.body;
+    var resultado = finalizarAsignacion(patente);
     res.json(resultado);
 });
 
@@ -123,6 +205,12 @@ router.put('/web/borrarUsuario', (req, res) => {
     res.json(resultado);
 });
 
+router.put('/web/reactivarUsuario', (req, res) => {
+    var { rut } = req.body;
+    resultado = reactivarUsuario(rut);
+    res.json(resultado);
+})
+
 
 //buscarUsuario(rut);
 router.post('/web/buscarUsuario', (req, res) => {
@@ -171,16 +259,21 @@ router.put('/web/borrarVehiculo', (req, res) => {
 
 //buscarVehiculo(patente);
 router.post('/web/buscarVehiculo', (req, res) => {
-
     var { patente } = req.body;
     resultado = buscarVehiculo(patente);
     res.json(resultado);
 });
 
+router.put('/web/reactivar', (req, res) => {
+    var { patente } = req.body;
+    resultado = reactivarVehiculo(patente);
+    res.json(resultado);
+});
+
 //crearInspeccion(fechaRegistro,patente) crear un registro vacio de inspeccion que luego el conductor llenara
-router.post('/web/crearInspeccion',(req,res)=>{
-    var {fechaRegistro,patente} = req.body;
-    resultado = crearInspeccion(fechaRegistro,patente);
+router.post('/web/crearInspeccion', (req, res) => {
+    var { fechaRegistro, patente } = req.body;
+    resultado = crearInspeccion(fechaRegistro, patente);
     res.json(resultado);
 })
 
@@ -315,7 +408,6 @@ function listarCategorias() {
     return resultado;
 }
 
-
 function getPatentesDisponibles(fecha) {
     var listaPatentesDisponibles = [];
     mongoDb[0]['bitacoras'].forEach(element => {
@@ -330,8 +422,6 @@ function getPatentesDisponibles(fecha) {
     }
 
 }
-
-
 
 //Funciones de la App
 
@@ -405,11 +495,11 @@ function getCriteriosdeInspeccion() {
 }
 //**************************************************************************************************** */
 
-function crearInspeccion(fechaRegistro,patente){
+function crearInspeccion(fechaRegistro, patente) {
     var result = -1;
     var id = (mongoDb[0]['inspecciones'].length + 1).toString();
-    var newInspeccion =             {
-        _id: id ,
+    var newInspeccion = {
+        _id: id,
         patenteVehiculo: patente,
         fechaRegistro: fechaRegistro,
         criterios: [
@@ -612,25 +702,42 @@ function guardarInspeccion(patente, criteriosInspeccion, rut) {
 // cierre es la fecha, debo establecer un formato de fecha para todos, tanto para la app como para la web
 // para generalizar ese dato y puedan compartirlo
 
-function finalizarAsignacion(patente, rut, cierre) {
+function finalizarAsignacion(patente) {
     var resultado = -1;
-    var date = cierre;
-    var dd = date.getDate();
-    var mm = date.getMonth() + 1;
+    var date = new Date();
+    var dd = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+    var mm = (date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
     var yyyy = date.getFullYear();
-    var fecha = yyyy + '-' + mm + '-' + dd;
 
-    mongoDb[0]['conductores'].forEach(conductor => {
-        if (conductor['rut'] == rut) {
-            mongoDb[0]['bitacoras'].forEach(bitacora => {
-                if (bitacora['patenteVehiculo'] == patente) {
-                    conductor['estadoAsignacion'] = false;
-                    bitacora['asignado'] = false;
-                    bitacora['conductor'] = '';
-                    bitacora['fechaFinal'] = fecha;
-                    resultado = bitacora;
+    var fecha = yyyy + '-' + mm + '-' + dd; //Nueva Fecha de Finalizacion
+
+    //se Obtiene la bitacora del vehiculo
+    mongoDb[0]['bitacoras'].forEach(bitacora => {
+        if (bitacora['patenteVehiculo'] == patente) {
+
+            var fechaRegistro = bitacora['fechaFinal']; //fecha de registro a actualizar
+            var rut = bitacora['conductor']; //conductor registrado en la bitacora
+
+            bitacora['asignado'] = false;
+            bitacora['conductor'] = '';
+            bitacora['fechaFinal'] = fecha;
+
+            //busqueda del registro a actualizar
+            bitacora['registro'].map((registro) => {
+
+                if (registro['fechaAsignacion']['hasta'] == fechaRegistro) {
+                    registro['fechaAsignacion']['hasta'] = fecha;
+                    console.log('se ha actualizado la fecha final del registro')
+
+                    //actualizar el estado de asignacion del conductor registrado en la bitacora
+                    mongoDb[0]['conductores'].map((conductor) => {
+                        if (conductor['rut'] == rut) {
+                            conductor['estadoAsignacion'] = false;
+                        }
+                    })
                 }
-            });
+            })
+            resultado = bitacora;
         }
     });
     return resultado;
@@ -646,8 +753,6 @@ function cambiarContraseña(usuario, clave) {
     });
     return resultado;
 }
-
-
 
 //funciones de la Web
 
@@ -703,7 +808,7 @@ function getVehiculosDisponibles(fecha) {
             console.log('bitacora ', bitacoraVehiculo);
             if (bitacoraVehiculo['asignado'] == false) {
                 mongoDb[0]['vehiculos'].forEach(vehiculo => {
-                    if (vehiculo['patente'] == bitacoraVehiculo['patenteVehiculo'] && vehiculo['status'] ==true) {
+                    if (vehiculo['patente'] == bitacoraVehiculo['patenteVehiculo'] && vehiculo['status'] == true) {
                         disponible.push(vehiculo);
                     }
 
@@ -739,6 +844,10 @@ function modificarUsuario(rut, data) {
 }
 
 function agregarUsuario(data) {
+
+    var a = "Manuel";
+
+    var resultado;
     var { rut, nombre, apellido, usuario, clave } = data;
     if (!rutRepetido(rut)) {
         var id = (mongoDb[0]['conductores'].length + 1).toString();
@@ -747,8 +856,8 @@ function agregarUsuario(data) {
         var patenteAsignada = '';
         var nuevoUsuario = {
             rut: rut,
-            nombre: nombre,
-            apellido, apellido,
+            nombre: nombre.toUpperCase(),
+            apellido: apellido.toUpperCase(),
             usuario: usuario,
             clave: clave,
             patenteAsignada: patenteAsignada,
@@ -757,18 +866,39 @@ function agregarUsuario(data) {
             id: id
         }
         mongoDb[0]['conductores'].push(nuevoUsuario);
-        return nuevoUsuario;
+        resultado = nuevoUsuario;
     } else {
-        return -1
-    }
+        mongoDb[0]['conductores'].forEach((conductor) => {
+            console.log(conductor)
+            if (conductor['rut'] == rut && conductor['status'] == false) {
+                resultado = -1;
+            }
+            if (conductor['rut'] == rut && conductor['status'] == true) {
+                resultado = -2;
+            }
 
+        })
+    }
+    return resultado;
 }
 
 function borrarUsuario(rut) {
     var resultado = -1;
     mongoDb[0]['conductores'].forEach(conductor => {
-        if (conductor['rut'] == rut) {
+        if (conductor['rut'] == rut && conductor['estadoAsignacion'] == false) {
             conductor['status'] = false;
+            resultado = conductor;
+        }
+    });
+
+    return resultado;
+}
+
+function reactivarUsuario(rut) {
+    var resultado = -1;
+    mongoDb[0]['conductores'].forEach(conductor => {
+        if (conductor['rut'] == rut) {
+            conductor['status'] = true;
             resultado = conductor;
         }
     });
@@ -787,7 +917,13 @@ function buscarUsuario(rut) {
 }
 
 function listarUsuarios() {
-    return mongoDb[0]['conductores'];
+    var users = [];
+    mongoDb[0]['conductores'].map((conductor) => {
+        if (conductor['status']) {
+            users.push(conductor);
+        }
+    })
+    return users;
 }
 
 //vehiculos
@@ -797,37 +933,54 @@ function listarVehiculo() {
 }
 
 function agregarVehiculo(data) {
+    var resultado;
     console.log(data);
     var { patente, marca, modelo, tipoCombustible, tipoVehiculo } = data;
-
-    if (!patenteRepetida(patente)) {
+    var auxPatente = patente.toUpperCase();
+    console.log(auxPatente);
+    if (!patenteRepetida(auxPatente)) {
         var id = (mongoDb[0]['vehiculos'].length + 1).toString();
         var status = true;
         var manutencion = false;
         var nuevoVehiculo = {
-            id, patente, marca, modelo, tipoVehiculo, tipoCombustible, manutencion, status
+            id: id,
+            patente: patente.toUpperCase(),
+            marca: marca.toUpperCase(),
+            modelo: modelo.toUpperCase(),
+            tipoVehiculo: tipoVehiculo,
+            tipoCombustible: tipoCombustible,
+            manutencion: manutencion,
+            status: status
         }
         mongoDb[0]['vehiculos'].push(nuevoVehiculo);
 
-        var nuevaBitacora = { _id: patente,
-        patenteVehiculo: patente,
-        asignado: false,
-        inspeccion:false,
-        conductor:'',
-        fechaFinal: '',
-        registro: [
-                    
-                
+        var nuevaBitacora = {
+            _id: patente,
+            patenteVehiculo: patente.toUpperCase(),
+            asignado: false,
+            inspeccion: false,
+            conductor: '',
+            fechaFinal: '',
+            registro: [
+
+
             ],
             status: true
         }
 
         mongoDb[0]['bitacoras'].push(nuevaBitacora);
-        return nuevoVehiculo;
+        resultado = nuevoVehiculo;
     } else {
-        return -1
+        mongoDb[0]['vehiculos'].map((vehiculo) => {
+            if (vehiculo['patente'] == auxPatente && vehiculo['status'] == true) {
+                resultado = -1;
+            }
+            if (vehiculo['patente'] == auxPatente && vehiculo['status'] == false) {
+                resultado = -2;
+            }
+        })
     }
-
+    return resultado;
 }
 
 function modificarVehiculo(data) {
@@ -836,8 +989,8 @@ function modificarVehiculo(data) {
 
     mongoDb[0]['vehiculos'].forEach(vehiculo => {
         if (vehiculo['patente'] == patente) {
-            vehiculo['marca'] = marca;
-            vehiculo['modelo'] = modelo;
+            vehiculo['marca'] = marca.toUpperCase();
+            vehiculo['modelo'] = modelo.toUpperCase();
             vehiculo['tipoCombustible'] = tipoCombustible;
             vehiculo['tipoVehiculo'] = tipoVehiculo;
             resultado = vehiculo;
@@ -849,9 +1002,26 @@ function modificarVehiculo(data) {
 function borrarVehiculo(patente) {
     console.log(patente);
     var resultado = -1;
+    mongoDb[0]['bitacoras'].map((bitacora) => {
+        if (bitacora['patenteVehiculo'] == patente && bitacora['asignado'] == false) {
+            mongoDb[0]['vehiculos'].forEach(vehiculo => {
+                if (vehiculo['patente'] == patente) {
+                    vehiculo['status'] = false;
+                    resultado = vehiculo;
+                }
+            });
+        }
+    });
+
+    return resultado;
+}
+
+function reactivarVehiculo(patente) {
+
+    var resultado = -1;
     mongoDb[0]['vehiculos'].forEach(vehiculo => {
-        if (vehiculo['patente'] == patente) {
-            vehiculo['status'] = false;
+        if (vehiculo['patente'] == patente.toUpperCase()) {
+            vehiculo['status'] = true;
             resultado = vehiculo;
         }
     });
@@ -929,7 +1099,6 @@ function listarTipoVehiculos() {
     return mongoDb['tipoVehiculos'];
 }
 
-
 // tipo Combustible
 
 function listarTipoCombustible() {
@@ -991,7 +1160,6 @@ function listarUsuariosDisponibles(fecha1, fecha2) {
 // mismo dia que esta registrado como "hasta".
 // deberia haber una funcion en app que se llame asignar
 
-
 function asignarVehiculo(data) {
     mongoDb[0]['bitacoras'].map((bitacora) => {
         if (bitacora['patenteVehiculo'] == data['patenteVehiculo']) {
@@ -1013,6 +1181,7 @@ function asignarVehiculo(data) {
         }
     });
 }
+
 
 //bitacora
 
