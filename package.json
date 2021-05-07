@@ -12,7 +12,7 @@
     "express": "^4.17.1",
     "jQuery": "^1.7.4",
     "morgan": "^1.9.1",
-    "underscore": "^1.9.2",
+    "underscore": "^1.12.1",
     "xlsx-populate": "^1.21.0"
   },
   "devDependencies": {
