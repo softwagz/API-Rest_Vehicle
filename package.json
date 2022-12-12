@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "jQuery": "^1.7.4",
     "morgan": "^1.9.1",
     "underscore": "^1.9.2",
